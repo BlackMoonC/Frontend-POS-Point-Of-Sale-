@@ -1,31 +1,39 @@
-import * as React from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { Product } from "../../lib/definitions";
 
-export default function MediaCard() {
+type MediaCardProps = {
+  product: Product;
+  handleClickBuy: (value: Product) => void;
+};
+
+const MediaCard = ({ product, handleClickBuy }: MediaCardProps) => {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         sx={{ height: 140 }}
-        image="https://plus.unsplash.com/premium_photo-1712325632272-b0cbb2a27db6?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        image={product.image}
         title="image-product"
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Lizard
+          {product.title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Rp500.000
+          {product.price}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
+        <Button onClick={() => handleClickBuy(product)} size="small">
+          Buy
+        </Button>
       </CardActions>
     </Card>
   );
-}
+};
+
+export default MediaCard;
