@@ -19,7 +19,7 @@ const MediaCard = ({ product, handleClickBuy }: MediaCardProps) => {
         image={product.image}
         title="image-product"
       />
-      <CardContent>
+      <CardContent sx={{ textOverflow: "ellipsis" }}>
         <Typography gutterBottom variant="h5" component="div">
           {product.title}
         </Typography>

@@ -2,11 +2,10 @@ import * as React from "react";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PeopleIcon from "@mui/icons-material/People";
+import HistoryIcon from "@mui/icons-material/History";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import CategoryIcon from "@mui/icons-material/Category";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import {
   Link as RouterLink,
@@ -19,35 +18,17 @@ const LinkBehavior = React.forwardRef<any, Omit<RouterLinkProps, "to">>(
 
 export const mainListItems = (
   <React.Fragment>
-    <ListItemButton component={LinkBehavior} to="/dashboard">
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <CategoryIcon />
-      </ListItemIcon>
-      <ListItemText primary="Kategori" />
-    </ListItemButton>
-    <ListItemButton component={LinkBehavior} to="/dashboard/orders">
+    <ListItemButton component={LinkBehavior} to="/employee/orders">
       <ListItemIcon>
         <ShoppingCartIcon />
       </ListItemIcon>
       <ListItemText primary="Produk" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton component={LinkBehavior} to="/">
       <ListItemIcon>
-        <PeopleIcon />
+        <HistoryIcon />
       </ListItemIcon>
-      <ListItemText primary="Customers" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Reports" />
+      <ListItemText primary="Riwayat Transaksi" />
     </ListItemButton>
   </React.Fragment>
 );

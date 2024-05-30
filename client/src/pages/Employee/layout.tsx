@@ -20,7 +20,9 @@ import { Avatar } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-
+import ListItemIcon from "@mui/material/ListItemIcon";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Logout from "@mui/icons-material/Logout";
 import { mainListItems } from "../../components/listItems";
 import { Outlet } from "react-router-dom";
 const drawerWidth: number = 240;
@@ -88,24 +90,18 @@ const Drawer = styled(MuiDrawer, {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
-
 export default function Dashboard() {
   const dispatch = useDispatch();
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
 
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const openUser = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
-  const handleCloseUserMenu = (nameSetting: string) => {
-    // setAnchorElUser(null);
-    if (nameSetting === "Logout") {
-      dispatch(logout());
-    }
-  };
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -140,37 +136,63 @@ export default function Dashboard() {
               Dashboard
             </Typography>
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar
-                    alt="Remy Sharp"
-                    src="/static/images/avatar/2.jpg"
-                    sx={{ width: 24, height: 24 }}
-                  />
+              <Tooltip title="Account settings">
+                <IconButton
+                  onClick={handleClick}
+                  size="small"
+                  sx={{ ml: 2 }}
+                  aria-controls={openUser ? "account-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={openUser ? "true" : undefined}>
+                  <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
                 </IconButton>
               </Tooltip>
               <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
+                anchorEl={anchorEl}
+                id="account-menu"
+                open={openUser}
+                onClose={handleClose}
+                onClick={handleClose}
+                PaperProps={{
+                  elevation: 0,
+                  sx: {
+                    overflow: "visible",
+                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                    mt: 1.5,
+                    "& .MuiAvatar-root": {
+                      width: 32,
+                      height: 32,
+                      ml: -0.5,
+                      mr: 1,
+                    },
+                    "&::before": {
+                      content: '""',
+                      display: "block",
+                      position: "absolute",
+                      top: 0,
+                      right: 14,
+                      width: 10,
+                      height: 10,
+                      bgcolor: "background.paper",
+                      transform: "translateY(-50%) rotate(45deg)",
+                      zIndex: 0,
+                    },
+                  },
                 }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}>
-                {settings.map((setting) => (
-                  <MenuItem
-                    key={setting}
-                    onClick={() => handleCloseUserMenu(setting)}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
+                transformOrigin={{ horizontal: "right", vertical: "top" }}
+                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon>
+                    <AccountCircleIcon fontSize="small" />
+                  </ListItemIcon>
+                  Profile
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                  Logout
+                </MenuItem>
               </Menu>
             </Box>
           </Toolbar>
